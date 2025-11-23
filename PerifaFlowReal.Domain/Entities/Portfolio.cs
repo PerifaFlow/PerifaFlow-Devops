@@ -22,4 +22,12 @@ public class Portfolio : Audit
         
         SetCreated(CreatedBy);
     }
+
+    public void Update(string titulo, string url)
+    {
+        Titulo = titulo;
+        Url = url;
+        
+        SetUpdated(UpdatedBy);
+    }
 }

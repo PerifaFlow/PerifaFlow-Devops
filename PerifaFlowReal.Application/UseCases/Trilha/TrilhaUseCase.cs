@@ -2,6 +2,7 @@
 using PerifaFlowReal.Application.Dtos.Request;
 using PerifaFlowReal.Application.Dtos.Response;
 using PerifaFlowReal.Application.Interfaces.Repositories;
+using PerifaFlowReal.Application.pagination;
 
 namespace PerifaFlowReal.Application.UseCases;
 
@@ -35,7 +36,12 @@ public class TrilhaUseCase(ITrilhaRepository  trilhaRepository): ITrilhaUseCase
             Id = trilha.Id,
             Titulo = trilha.Titulo,
             Descricao = trilha.Descricao,
-            Missao = new() // lista vazia inicialmente
+            Missao = new List<Missao>() // lista vazia inicialmente
         };
+    }
+
+    public Task<PaginatedResult<TrilhaSummary>> GetPageAsync(PageRequest page, TrilhaQuery? filter = null, CancellationToken ct = default)
+    {
+        return trilhaRepository.GetPageAsync(page, filter, ct);
     }
 }

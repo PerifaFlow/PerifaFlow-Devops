@@ -4,5 +4,5 @@ namespace PerifaFlowReal.Application.UseCases.CreateMissaoUseCase;
 
 public interface IUpdateMissaoUseCase
 {
-    Task<bool> Execute(Guid motoId, MissaoRequest request);
+    Task<bool> Execute(Guid missaoId, MissaoRequest request);
 }

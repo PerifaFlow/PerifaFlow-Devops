@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +14,15 @@ using PerifaFlowReal.Application.Interfaces.Repositories;
 using PerifaFlowReal.Application.pagination;
 using PerifaFlowReal.Application.UseCases.CreateMissaoUseCase;
 using PerifaFlowReal.Infastructure.Percistence.Context;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace PerifaFlowReal.api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("2.0")]
+    [Produces("application/json")]
+    [SwaggerTag("Gerenciamento de Login")]
+    [AllowAnonymous]
     [ApiController]
     public class MissaoController : ControllerBase
     {
@@ -31,14 +38,21 @@ namespace PerifaFlowReal.api.Controllers
         }
 
         // GET: api/Missao
-        [HttpGet]
+        [HttpGet("paged")]
         public Task<PaginatedResult<MissaoSummary>> GetPage([FromQuery] PageRequest request,
             [FromQuery] MissaoQuery missaoQuery)
         {
             return _createMissaoUseCase.GetPageAsync(request, missaoQuery);
         }
-            
-            
+
+        [HttpGet("listbyTrilha")]
+        public async Task<ActionResult<MissaoResponse>> ListarPorTrilhaAsync(Guid trilhaId)
+        {
+            var missao = await _missaoRepository.ListarPorTrilhaAsync(trilhaId);
+            if (!missao.Any()) return NotFound($"Nenhuma missão encontrada encontrada par essa trilha '{trilhaId}'");
+            return Ok(missao.Select(m =>new MissaoResponse(m.Id, m.Titulo, m.Descricao, m.TrilhaId)));
+        }
+        
         // GET: api/Missao/5
         [HttpGet("{id}")]
         public async Task<ActionResult<MissaoResponse>> GetMissao(Guid id)

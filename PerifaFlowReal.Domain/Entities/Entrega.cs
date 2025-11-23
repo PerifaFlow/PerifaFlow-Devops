@@ -22,13 +22,14 @@ public class Entrega : Audit
         
     }
 
-    public Entrega(TipoEntrega tipo, string conteudoUrl, Guid userID, Guid missaoID)
+    public Entrega(TipoEntrega tipo, string conteudoUrl, Guid userID, Guid missaoID, Guid portfolioID)
     {
         Id = Guid.NewGuid();
         Tipo = tipo;
         ConteudoUrl = conteudoUrl;
         UserID = userID;
         MissaoID = missaoID;
+        PortfolioId = portfolioID;
         
         SetCreated(CreatedBy);
     }

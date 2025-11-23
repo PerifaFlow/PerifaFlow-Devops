@@ -15,6 +15,7 @@ public static class DependencyInjection
     public static IServiceCollection AddUseCases(this IServiceCollection services)
     {
         services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
+        services.AddScoped<IUpdateUserUseCase, UpdateUserUsecase>();
         services.AddScoped<ICreateMissaoUseCase, CreateMissaoUseCase>();
         services.AddScoped<IUpdateMissaoUseCase, UpdateMissaoUseCase>();
         services.AddScoped<IRealizarEntregaUseCase, RealizarEntregaUseCase>();
@@ -23,7 +24,9 @@ public static class DependencyInjection
         services.AddScoped<SugerirMissaoUseCase>();
         services.AddScoped<ILoginUseCase, LoginUseCase>();
         services.AddScoped<ICreatePortfolioUseCase, CreatePortFolio>();
+        services.AddScoped<IUpdatePortfolioUseCase, UpdatePortfolio>();
         services.AddScoped<ITrilhaUseCase, TrilhaUseCase>();
+        services.AddScoped<IUpdateTrilhaUseCase, UpdateTrilhaUseCase>();
         
         return services;
     }

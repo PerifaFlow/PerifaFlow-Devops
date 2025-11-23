@@ -2,6 +2,7 @@
 using PerifaFlowReal.Application.Dtos.Request;
 using PerifaFlowReal.Application.Dtos.Response;
 using PerifaFlowReal.Application.Interfaces.Repositories;
+using PerifaFlowReal.Application.pagination;
 
 namespace PerifaFlowReal.Application.UseCases.PortFolio;
 
@@ -36,11 +37,17 @@ public class CreatePortFolio(IPortfolioRepository portfolioRepository): ICreateP
         return new PortfolioResponse
         {
             Id = portfolio.Id,
-            UserId = portfolio.UserID,
             Titulo = portfolio.Titulo,
             Url = portfolio.Url,
-            Entregas = new()
+            UserId = portfolio.UserID,
+            Entregas =  new List<Entrega>() 
+                        
             
         };
+    }
+
+    public Task<PaginatedResult<PortfolioSummary>> GetPageAsync(PageRequest page, PortfolioQuery? filter = null, CancellationToken ct = default)
+    {
+        return portfolioRepository.GetPageAsync(page, filter, ct);
     }
 }

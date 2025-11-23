@@ -20,9 +20,23 @@ public static class DependenciInjection
         });
     }
 
-    private static IServiceCollection AddServices(this IServiceCollection services)
+    private static IServiceCollection AddServices(this IServiceCollection services, ServiceConnection config)
     {
-        services.AddHttpClient<IRitimoService, RitmoService>();
+        services.AddHttpClient<IRitimoService, RitmoService>(client =>
+            {
+                client.BaseAddress = new Uri(config.BaseUrl);
+
+                client.Timeout = TimeSpan.FromMinutes(5);
+            })
+            .ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                return new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback =
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                };
+            });
+
         return services;
     }
     
@@ -40,7 +54,7 @@ public static class DependenciInjection
     {
         services.AddDBContext(settings.ConnectionStrings);
         services.AddRepositories();
-        services.AddServices();
+        services.AddServices(settings.BemEstar);
         return services;
     }
 

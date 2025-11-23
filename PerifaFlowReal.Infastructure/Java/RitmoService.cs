@@ -28,7 +28,11 @@ public class RitmoService : IRitimoService
 
         var response = await _httpClient.PostAsJsonAsync("/ritmo/registrar", request, ct);
 
-        response.EnsureSuccessStatusCode();
+        if (!response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync(cancellationToken: ct);
+            throw new Exception($"Erro ao chamar API Java (Status {response.StatusCode}): {content}");
+        }
     }
 
     // ----------------------------

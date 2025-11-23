@@ -28,12 +28,12 @@ public class User : Audit
         SetCreated(CreatedBy);
     }
     
-    public void Update(string username, string email, string password, string updatedBy)
+    public void Update(string username, string email, string password)
     {
         Username = username;
         Email = email;
         Password = password;
         
-        SetUpdated(updatedBy);
+        SetUpdated(UpdatedBy);
     }
 }

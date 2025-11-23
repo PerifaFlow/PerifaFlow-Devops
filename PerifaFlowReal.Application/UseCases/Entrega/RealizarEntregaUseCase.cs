@@ -12,12 +12,15 @@ public class RealizarEntregaUseCase(IEntregaRepository entregaRepository): IReal
         if (request == null)
             throw new ArgumentNullException(nameof(request));
 
-        if (request.UseroId == Guid.Empty)
+        if (request.UserId == Guid.Empty)
             throw new ArgumentException("Usuário inválido.");
 
         if (request.MissaoId == Guid.Empty)
             throw new ArgumentException("Missão inválida.");
-
+        
+        if (request.PortfolioId == Guid.Empty)
+            throw new ArgumentException("Portfólio inválido.");
+        
         if (string.IsNullOrWhiteSpace(request.ConteudoUrl))
             throw new ArgumentException("Conteúdo da URL é obrigatório.");
 
@@ -26,8 +29,9 @@ public class RealizarEntregaUseCase(IEntregaRepository entregaRepository): IReal
         (
             request.Tipo,
             request.ConteudoUrl,
-            request.UseroId,
-            request.MissaoId
+            request.UserId,
+            request.MissaoId,
+            request.PortfolioId
         );
 
         // 3. Persistir através do repositório genérico

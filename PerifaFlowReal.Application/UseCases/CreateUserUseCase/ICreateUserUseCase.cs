@@ -6,7 +6,11 @@ namespace PerifaFlowReal.Application.UseCases.CreateUserUseCase;
 
 public interface ICreateUserUseCase
 {
-    Task Execute(UserRequest request);
+    Task<UserResponse> Execute(UserRequest request);
     
-    
+    Task<PaginatedResult<UserSummary>> ExecuteAsync(
+        PageRequest page,
+        UserQuery? filter = null,
+        CancellationToken ct = default
+    );
 }

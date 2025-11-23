@@ -8,14 +8,27 @@ namespace PerifaFlowReal.Application.UseCases.CreateUserUseCase;
 
 public class CreateUserUseCase(IUserRepository userRepository) : ICreateUserUseCase
 {
-    public async Task Execute(UserRequest request)
+    public async Task<UserResponse> Execute(UserRequest request)
     {
         var existUser = userRepository.GetByEmailAsync(request.Email);
+        var user = new User(request.Username, request.Email, request.Password);
         
-       // if(existUser != null)
-         //   throw new Exception("User with this email already exists");
+        if(existUser != null)
+            throw new Exception("User with this email already exists");
 
         await userRepository.AddAsync(request.ToDomain());
+        
+        return new UserResponse(
+            user.Id,
+            user.Username,
+            user.Email,
+            user.Password
+        );
+    }
+    
+    public Task<PaginatedResult<UserSummary>> ExecuteAsync(PageRequest page, UserQuery? filter = null, CancellationToken ct = default)
+    {
+        return userRepository.GetPageAsync(page, filter, ct);
     }
 
   
