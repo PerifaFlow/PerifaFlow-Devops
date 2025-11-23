@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PerifaFlowReal.Application.Configs;
 using PerifaFlowReal.Application.Interfaces.Repositories;
+using PerifaFlowReal.Application.Interfaces.Services;
+using PerifaFlowReal.Infastructure.Java;
 using PerifaFlowReal.Infastructure.Percistence.Context;
 using PerifaFlowReal.Infastructure.Percistence.Repositories;
 
@@ -16,6 +18,12 @@ public static class DependenciInjection
         { 
             options.UseOracle(configuration.PerifaFlowDb);
         });
+    }
+
+    private static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.AddHttpClient<IRitimoService, RitmoService>();
+        return services;
     }
     
     private static IServiceCollection AddRepositories(this IServiceCollection services)
@@ -32,6 +40,7 @@ public static class DependenciInjection
     {
         services.AddDBContext(settings.ConnectionStrings);
         services.AddRepositories();
+        services.AddServices();
         return services;
     }
 
