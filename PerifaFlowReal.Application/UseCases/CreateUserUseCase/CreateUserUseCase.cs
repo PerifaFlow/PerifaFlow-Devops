@@ -12,10 +12,11 @@ public class CreateUserUseCase(IUserRepository userRepository) : ICreateUserUseC
     {
         var existUser = userRepository.GetByEmailAsync(request.Email);
         
-        if(existUser != null)
-            throw new Exception("User with this email already exists");
+       // if(existUser != null)
+         //   throw new Exception("User with this email already exists");
 
         await userRepository.AddAsync(request.ToDomain());
     }
-    
+
+  
 }

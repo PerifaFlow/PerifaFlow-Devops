@@ -3,10 +3,10 @@
 public class Audit
 {
     public DateTime CreatedAt { get; protected set; }
-    public string CreatedBy { get; protected set; } = string.Empty; 
+    public string CreatedBy { get; protected set; } = "System"; 
     
     public DateTime UpdatedAt { get; protected set; }
-    public string UpdatedBy { get; protected set; } = string.Empty;
+    public string UpdatedBy { get; protected set; } = "System";
     
     // Método para inicializar a criação
     protected void SetCreated(string user)
