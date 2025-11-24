@@ -16,7 +16,7 @@ public static class DependenciInjection
     {
         return services.AddDbContext<PerifaFlowContext>(options =>
         { 
-            options.UseOracle(configuration.PerifaFlowDb);
+            options.UseSqlServer(configuration.PerifaFlowDb);
         });
     }
 
