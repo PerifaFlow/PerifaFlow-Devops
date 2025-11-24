@@ -22,14 +22,17 @@ public class EntregaMapping : IEntityTypeConfiguration<Entrega>
 
         builder.HasOne(e => e.Portfolio)
             .WithMany(p => p.Entrega)
-            .HasForeignKey(e => e.PortfolioId);
-
+            .HasForeignKey(e => e.PortfolioId)
+            .OnDelete(DeleteBehavior.Restrict);    
+        
         builder.HasOne(e => e.Missao)
             .WithOne(p => p.Entrega)
-            .HasForeignKey<Entrega>(e => e.MissaoID);
+            .HasForeignKey<Entrega>(e => e.MissaoID)
+            .OnDelete(DeleteBehavior.Restrict); 
         
         builder.HasOne(e => e.User)
-            .WithMany(p => p.Entrega)
-            .HasForeignKey(e => e.UserID);
+            .WithMany(u => u.Entrega)
+            .HasForeignKey(e => e.UserID)
+            .OnDelete(DeleteBehavior.Restrict); 
     }
 }
