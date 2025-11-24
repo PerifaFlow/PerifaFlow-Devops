@@ -20,6 +20,7 @@ namespace PerifaFlowReal.api.Controllers
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("2.0")]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [SwaggerTag("Gerenciamento de Login")]
     [AllowAnonymous]

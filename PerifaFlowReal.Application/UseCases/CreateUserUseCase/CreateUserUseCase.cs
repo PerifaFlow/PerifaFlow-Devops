@@ -13,8 +13,8 @@ public class CreateUserUseCase(IUserRepository userRepository) : ICreateUserUseC
         var existUser = userRepository.GetByEmailAsync(request.Email);
         var user = new User(request.Username, request.Email, request.Password);
         
-        if(existUser != null)
-            throw new Exception("User with this email already exists");
+        //if(existUser != null)
+          //  throw new Exception("User with this email already exists");
 
         await userRepository.AddAsync(request.ToDomain());
         
@@ -25,11 +25,9 @@ public class CreateUserUseCase(IUserRepository userRepository) : ICreateUserUseC
             user.Password
         );
     }
-    
+
     public Task<PaginatedResult<UserSummary>> ExecuteAsync(PageRequest page, UserQuery? filter = null, CancellationToken ct = default)
     {
         return userRepository.GetPageAsync(page, filter, ct);
     }
-
-  
 }
